@@ -1,0 +1,21 @@
+{% extends "base.html" %}{% block title %}Register{% endblock %}{% block content %}
+<div class="form-card wide"><h2>Create an account</h2><form method="post" id="registerForm">
+<label>Username *<input name="username" required></label>
+<label>Password *<input type="password" name="password" minlength="8" required><small>At least 8 characters.</small></label>
+<label>Account type *<select name="role" id="role" required><option value="requester">Requester / Patient</option><option value="donor">Blood Donor</option></select></label>
+<div id="donorFields" class="form-grid hidden">
+<label>Full name *<input name="name"></label>
+<label>Blood group *<select name="blood_group"><option value="">Select</option>{% for b in blood_groups %}<option>{{ b }}</option>{% endfor %}</select></label>
+<label>Phone *<input name="phone" type="tel"></label>
+<label>Email<input name="email" type="email"></label>
+<label>City *<input name="city"></label>
+<label>Date of birth<input name="date_of_birth" type="date"></label>
+<label>Gender<select name="gender"><option value="">Prefer not to say</option><option>Female</option><option>Male</option><option>Other</option></select></label>
+<label class="full">Address<textarea name="address" rows="2"></textarea></label>
+</div><button class="btn">Register</button></form></div>
+<script>
+const roleSelect=document.getElementById('role'), donorFields=document.getElementById('donorFields');
+function toggleDonor(){const show=roleSelect.value==='donor';donorFields.classList.toggle('hidden',!show);donorFields.querySelectorAll('input,select').forEach(el=>{el.required=show && ['name','blood_group','phone','city'].includes(el.name)});}
+roleSelect.addEventListener('change',toggleDonor);toggleDonor();
+</script>
+{% endblock %}

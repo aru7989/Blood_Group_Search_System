@@ -1,0 +1,15 @@
+{% extends "base.html" %}{% block content %}
+<div class="form-card wide"><h2>Manage donor profile</h2><form method="post" class="form-grid">
+<label>Full name *<input name="name" value="{{ donor['name'] }}" required></label>
+<label>Blood group *<select name="blood_group" required>{% for b in blood_groups %}<option {% if donor['blood_group']==b %}selected{% endif %}>{{ b }}</option>{% endfor %}</select></label>
+<label>Phone *<input name="phone" value="{{ donor['phone'] }}" required></label>
+<label>Email<input type="email" name="email" value="{{ donor['email'] or '' }}"></label>
+<label>City *<input name="city" value="{{ donor['city'] }}" required></label>
+<label>Date of birth<input type="date" name="date_of_birth" value="{{ donor['date_of_birth'] or '' }}"></label>
+<label>Gender<select name="gender"><option value="">Select</option>{% for g in ['Female','Male','Other'] %}<option {% if donor['gender']==g %}selected{% endif %}>{{ g }}</option>{% endfor %}</select></label>
+<label>Availability<select name="availability_status"><option {% if donor['availability_status']=='Available' %}selected{% endif %}>Available</option><option {% if donor['availability_status']=='Unavailable' %}selected{% endif %}>Unavailable</option></select></label>
+<label>Last donation date<input type="date" name="last_donation_date" value="{{ donor['last_donation_date'] or '' }}"></label>
+<label class="full">Address<textarea name="address" rows="2">{{ donor['address'] or '' }}</textarea></label>
+<div class="full"><button class="btn">Save changes</button></div></form>
+<p class="muted">Verification status: {{ donor['verification_status'] }}. Changes to profile details may require administrator review.</p></div>
+{% endblock %}

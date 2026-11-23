@@ -1,0 +1,3 @@
+{% extends "base.html" %}{% block content %}<h1>Notifications</h1>
+{% for n in notifications %}<div class="list-item"><b>{{ n['notification_type'] }}</b> · {{ n['message'] }}<small>{{ n['created_at'] }}</small></div>{% else %}<p class="muted">No notifications available.</p>{% endfor %}
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}{% block content %}
+<section class="hero">
+  <div><p class="eyebrow">A centralized donor management platform</p>
+  <h1>Find blood donors.<br><span>Help save lives.</span></h1>
+  <p>Register as a donor, search verified donor records by blood group and location, and manage blood requests in one place.</p>
+  <div class="actions"><a class="btn" href="{{ url_for('register') }}">Get started</a><a class="btn secondary" href="{{ url_for('login') }}">Login</a></div></div>
+  <div class="hero-art">🩸<small>Donate blood · Share hope</small></div>
+</section>
+<section class="grid3">
+  <article class="card"><h3>Donor registration</h3><p>Create a donor profile and update your availability and contact details.</p></article>
+  <article class="card"><h3>Smart search</h3><p>Find verified donors using blood group, city, and availability filters.</p></article>
+  <article class="card"><h3>Blood requests</h3><p>Submit a requirement and follow its status from your dashboard.</p></article>
+</section>
+{% endblock %}

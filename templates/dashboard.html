@@ -1,0 +1,22 @@
+{% extends "base.html" %}{% block title %}Dashboard{% endblock %}{% block content %}
+<h1>Welcome, {{ session.get('username') }}</h1><p class="muted">Your {{ session.get('role') }} dashboard</p>
+{% if session.get('role') == 'donor' %}
+  {% if donor %}
+  <div class="card"><div class="row between"><h2>Donor profile</h2><span class="pill">{{ donor['verification_status'] }}</span></div>
+  <div class="stats"><div><b>{{ donor['blood_group'] }}</b><small>Blood group</small></div><div><b>{{ donor['city'] }}</b><small>City</small></div><div><b>{{ donor['availability_status'] }}</b><small>Availability</small></div></div>
+  <p>{{ donor['name'] }} · {{ donor['phone'] }}</p><a class="btn" href="{{ url_for('profile') }}">Update profile</a></div>
+  {% else %}<p>Donor profile not found.</p>{% endif %}
+  <h2>Notifications</h2>{% for n in notifications %}<div class="list-item">{{ n['message'] }} <small>{{ n['created_at'] }}</small></div>{% else %}<p class="muted">No notifications yet.</p>{% endfor %}
+{% elif session.get('role') == 'requester' %}
+  <div class="actions"><a class="btn" href="{{ url_for('search_donors') }}">Search verified donors</a><a class="btn secondary" href="{{ url_for('new_request') }}">Create blood request</a></div>
+  <h2>My blood requests</h2><div class="table-wrap"><table><tr><th>Group</th><th>Units</th><th>Hospital</th><th>Required date</th><th>Priority</th><th>Status</th></tr>
+  {% for r in requests %}<tr><td>{{ r['blood_group'] }}</td><td>{{ r['required_units'] }}</td><td>{{ r['hospital_name'] }}</td><td>{{ r['required_date'] }}</td><td>{{ r['priority'] }}</td><td>{{ r['request_status'] }}</td></tr>{% else %}<tr><td colspan="6">No requests created yet.</td></tr>{% endfor %}</table></div>
+{% else %}
+  <div class="stats"><div><b>{{ stats.donors }}</b><small>Total donors</small></div><div><b>{{ stats.pending }}</b><small>Pending verification</small></div><div><b>{{ stats.requests }}</b><small>Blood requests</small></div></div>
+  <h2>Donors awaiting verification</h2><div class="table-wrap"><table><tr><th>Name</th><th>Group</th><th>Phone</th><th>City</th><th>Action</th></tr>
+  {% for d in pending_donors %}<tr><td>{{ d['name'] }}</td><td>{{ d['blood_group'] }}</td><td>{{ d['phone'] }}</td><td>{{ d['city'] }}</td><td class="actions-inline">
+  <form method="post" action="{{ url_for('verify_donor', donor_id=d['id'], action='verify') }}"><button class="btn small">Verify</button></form>
+  <form method="post" action="{{ url_for('verify_donor', donor_id=d['id'], action='reject') }}"><button class="btn danger small">Reject</button></form></td></tr>{% else %}<tr><td colspan="5">No pending donors.</td></tr>{% endfor %}</table></div>
+  <a class="btn" href="{{ url_for('search_donors') }}">Search donors</a> <a class="btn secondary" href="{{ url_for('admin_requests') }}">Manage requests</a>
+{% endif %}
+{% endblock %}

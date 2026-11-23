@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% block content %}
+<div class="form-card wide"><h2>Create a blood request</h2><form method="post" class="form-grid">
+<label>Required blood group *<select name="blood_group" required><option value="">Select</option>{% for b in blood_groups %}<option>{{ b }}</option>{% endfor %}</select></label>
+<label>Required units *<input type="number" name="required_units" min="1" required></label>
+<label>Hospital name *<input name="hospital_name" required></label>
+<label>Location / city *<input name="location" required></label>
+<label>Required date *<input type="date" name="required_date" min="{{ '' }}" required></label>
+<label>Priority<select name="priority"><option>Normal</option><option>Urgent</option><option>Emergency</option></select></label>
+<div class="full"><button class="btn">Submit request</button></div></form></div>
+{% endblock %}

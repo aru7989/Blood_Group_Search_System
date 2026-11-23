@@ -1,0 +1,4 @@
+{% extends "base.html" %}{% block content %}
+<h1>Manage blood requests</h1><div class="table-wrap"><table><tr><th>Requester</th><th>Blood group</th><th>Units</th><th>Hospital / location</th><th>Date</th><th>Priority</th><th>Status</th><th>Update</th></tr>
+{% for r in requests %}<tr><td>{{ r['username'] }}</td><td>{{ r['blood_group'] }}</td><td>{{ r['required_units'] }}</td><td>{{ r['hospital_name'] }}<br>{{ r['location'] }}</td><td>{{ r['required_date'] }}</td><td>{{ r['priority'] }}</td><td>{{ r['request_status'] }}</td><td><form method="post" action="{{ url_for('update_request', request_id=r['id']) }}"><select name="request_status">{% for s in ['Open','In Progress','Fulfilled','Cancelled'] %}<option {% if r['request_status']==s %}selected{% endif %}>{{ s }}</option>{% endfor %}</select><button class="btn small">Save</button></form></td></tr>{% else %}<tr><td colspan="8">No blood requests yet.</td></tr>{% endfor %}</table></div>
+{% endblock %}

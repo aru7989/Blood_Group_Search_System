@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% block content %}
+<h1>Search blood donors</h1><div class="card"><form method="get" class="form-grid">
+<label>Blood group<select name="blood_group"><option value="">All groups</option>{% for b in blood_groups %}<option value="{{ b }}" {% if selected_group==b %}selected{% endif %}>{{ b }}</option>{% endfor %}</select></label>
+<label>City / location<input name="city" value="{{ city }}" placeholder="Enter city"></label>
+<label>Availability<select name="availability"><option value="">Any</option><option {% if availability=='Available' %}selected{% endif %}>Available</option><option {% if availability=='Unavailable' %}selected{% endif %}>Unavailable</option></select></label>
+<div class="full"><button class="btn">Search</button></div></form></div>
+<h2>Matching verified donors ({{ results|length }})</h2><div class="table-wrap"><table><tr><th>Name</th><th>Blood group</th><th>City</th><th>Availability</th><th>Contact</th></tr>
+{% for d in results %}<tr><td>{{ d['name'] }}</td><td><b>{{ d['blood_group'] }}</b></td><td>{{ d['city'] }}</td><td>{{ d['availability_status'] }}</td><td>{{ d['phone'] }}{% if d['email'] %}<br>{{ d['email'] }}{% endif %}</td></tr>{% else %}<tr><td colspan="5">No matching verified donors found. Try changing the filters.</td></tr>{% endfor %}</table></div>
+<p class="muted">Only administrator-verified donor profiles are shown.</p>
+{% endblock %}
